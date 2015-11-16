@@ -1,9 +1,10 @@
 DATE=$(date '+%s')
+MYDIR="$(dirname "$(readlink -f "$0")")"
 err=0
 
-./genUrls.py
+$MYDIR/genUrls.py $MYDIR
 
 while read -r url filename tail; do
-    mkdir -p "data/$filename"
-    wget -O "data/$filename/$DATE" "$url" || err=1
-done < urls.txt
+    mkdir -p "$MYDIR/data/$filename"
+    wget -O "$MYDIR/data/$filename/$DATE" "$url" || err=1
+done < $MYDIR/urls.txt
